@@ -3,20 +3,17 @@
 import pgdb
 import pg
 from DBContext import DBContext
-from gui import PyDBWin
 
-class PyDBMain(DBContext, object):
-    """ Hej"""
+class PyDBConn(DBContext, object):
+    """ """
 
     def __init__(self,debug=False):
-        super(PyDBMain,self).__init__()
+        super(PyDBConn,self).__init__()
         self.debug=debug
     
         
     def run(self):        
-        super(PyDBMain,self).run()
-        #self.window = PyDBWin()
-        #self.window.main()
+        super(PyDBConn,self).run()
 
     def safe_input(self,str):
         return pgdb.escape_string(raw_input(str))
@@ -54,7 +51,7 @@ class PyDBMain(DBContext, object):
 
     def select(self):
         try:
-            super(PyDBMain,self).select()
+            super(PyDBConn,self).select()
         except pg.DatabaseError as e:
             if self.debug:
                 print e
@@ -97,5 +94,5 @@ class PyDBMain(DBContext, object):
         
 
 if __name__== "__main__":
-    pydb = PyDBMain(debug=True)
+    pydb = PyDBConn(debug=True)
     pydb.run()
