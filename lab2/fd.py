@@ -1,6 +1,7 @@
 #!/bin/python
 
 class Functional_Dependencies:
+    # This class has to be immutable to work with sets
     def __init__(self, left = set(), right = set()):
         self._left = left
         self._right = right
