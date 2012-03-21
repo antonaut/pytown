@@ -13,3 +13,9 @@ fdg = parse("input/generics.dep")
 fda = parse("input/advancedAttributes.dep")
 
 c1 = closure({'A','C'}, fd1)
+
+R  = {'A','B','C','D'}
+R1 = {'A','C','D'}
+S  = {FD({'A'},{'B'}),FD({'B'},{'C'}),FD({'C'},{'D'})}
+c = closure({'A'},S)
+p1 = projection(R, R1, S)
