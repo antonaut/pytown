@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/python3
 from fd import Functional_Dependencies as FD
 
 def parse(file):
@@ -8,5 +8,10 @@ def parse(file):
             l, _, r = line.partition(" -> ")
             left  = set(l.split(", "))
             right = set(r.split(", "))
-            res.add(FD(left, right))
+            res.append(FD(left, right))
     return res
+
+
+if __name__== "__main__":
+    fdz= parse("input/input1.dep")
+    print(fdz)
