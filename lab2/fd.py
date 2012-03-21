@@ -1,10 +1,12 @@
-#!/bin/python
+#!/usr/bin/python3
 
 class Functional_Dependencies:
     # This class has to be immutable to work with sets
     def __init__(self, left = set(), right = set()):
         self._left = left
         self._right = right
+        self._str = None
+        self._hash = None
     
     def __hash__(self):
         # Lazy evaluation of hash with cache
@@ -16,10 +18,10 @@ class Functional_Dependencies:
         return self._hash
     
     def __eq__(self, other):
-        return isinstance(other, Functional_Dependencies) && hash(self) == hash(other)
+        return isinstance(other, Functional_Dependencies) and hash(self) == hash(other)
     
     def __ne__(self, other):
-        return !(self == other)
+        return not (self == other)
     
     def __str__(self):
         # Lazy evaluation of hash with cache
@@ -27,9 +29,15 @@ class Functional_Dependencies:
             # E.g. "A, B, C -> D, E"
             self._str = ", ".join(self._left) + " -> " + ", ".join(self._right)
         return self._str
+    
+    def __repr__(self):
+        return '"' + str(self) + '"'
         
     def split(self):
         res = set()
         for r in self._right:
-            res.add(Functional_Dependencies(self._left, r))
+            res.add(Functional_Dependencies(self._left, {r}))
         return res
+    
+    def left(self):
+        return self._left

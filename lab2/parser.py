@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/python3
 from fd import Functional_Dependencies as FD
 
 def parse(file):
