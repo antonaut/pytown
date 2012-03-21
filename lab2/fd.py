@@ -10,7 +10,7 @@ class Functional_Dependencies:
     
     def __hash__(self):
         # Lazy evaluation of hash with cache
-        if(self._hash == None):
+        if self._hash == None:
             self._hash = 0
             for x in self._left | self._right:
                 # Just xor the lefts and rights hashes together
@@ -24,8 +24,8 @@ class Functional_Dependencies:
         return not (self == other)
     
     def __str__(self):
-        # Lazy evaluation of hash with cache
-        if(self._str == None):
+        # Lazy evaluation of str with cache
+        if self._str == None:
             # E.g. "A, B, C -> D, E"
             self._str = ", ".join(self._left) + " -> " + ", ".join(self._right)
         return self._str
@@ -41,3 +41,6 @@ class Functional_Dependencies:
     
     def left(self):
         return self._left
+    
+    def right(self):
+        return self._right
