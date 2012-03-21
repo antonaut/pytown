@@ -12,7 +12,7 @@ def closure(attrs, fds):
     while not done:
         done = True # assume we are done
         for fd in new_fds:
-            if fd.left() in closure and fd.right() not in closure:
+            if fd.left() < closure and not fd.right() < closure:
                 closure = closure | fd.right()
                 done = False
 
