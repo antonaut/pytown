@@ -24,52 +24,60 @@ def projection(R, R1, S):
         for A in R1:
             if A in Xp and {A} != X:
                 T.add(FD(X, {A}))
-    
+
     tmp = T.copy()
-    #print(T)
-    for fd1 in tmp:
-        for fd2 in tmp:
-            if fd1.right() == fd2.left():
-                T.discard(FD(fd1.left(), fd2.right()))
-    
-    tmp = T.copy()
-    #print(T)
     for fd in tmp:
         Y = fd.left()
         B = fd.right()
         l = len(Y)
         if l >= 2:
             for Z in one_less_subsets(Y):
-                for fd2 in tmp:
-                    if Z == fd2.right():
-                        pass
-                        #T.discard(fd)
-                        #T.add(FD(Z, B))
-    
-    #print(T)
-    for fd in T.copy():
-        if fd.right() <= fd.left():
+                x = FD(Z,B)
+                if follows_from(x,tmp):
+                    print(fd)
+                    T.discard(fd)
+                    T.add(x)
+
+
+    tmp = T.copy()
+
+    # Transitivity:
+    # A -> C
+    # C -> D
+    # A -> D
+    #
+    # Removes A -> D since it's redundant
+    for fd in tmp:
+        if fd.right() <= fd.left() or follows_from(fd, tmp):
             T.discard(fd)
-    
-    #print(T)
+
     return T
 
-def BCNF(R, S):
+def follows_from(fd,fds):
+    for x in fds:
+        for y in fds:
+            if fd.left() == x.left() and fd.right() == y.right() and x.right() == y.left():
+                return True
+    return False
+
+def BCNF(S):
+    pass
+
+def _BCNF(R, S):
     # is R in BCNF?
     tmp = []
     if all( fds_contains_keys(R, S, tmp) ):
         return R
-    
+
     tmp = tmp[0]
     R1 = closure(tmp.left(), S)
     R2 = tmp.left() | (R - R1)
     S1 = projection(R, R1, S)
     S2 = projection(R, R2, S)
-    
+
     print('R1: {}, S1: {}\nR2: {}, S2: {}'.format(R1,S1,R2,S2))
-    
-    return True
-    #return BCNF(R1, S1) | BCNF(R2, S2)
+
+    return _BCNF(R1, S1) | _BCNF(R2, S2)
 
 def fds_contains_keys(R, S, tmp):
     K = keys(R, S)
@@ -82,7 +90,7 @@ def fds_contains_keys(R, S, tmp):
 
 def keys(R, S):
     keys = set()
-    
+
     for A in subsets(R):
         if closure(A, S) == R:
             if all( [closure(X, S) == R for X in one_less_subsets(A)] ):
