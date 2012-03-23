@@ -24,21 +24,27 @@ def projection(R, R1, S):
         for A in R1:
             if A in Xp and {A} != X:
                 T.add(FD(X, {A}))
-
+    
     tmp = T.copy()
-    for fd in tmp:
-        Y = fd.left()
-        B = fd.right()
-        l = len(Y)
-        if l >= 2:
-            for Z in one_less_subsets(Y):
-                x = FD(Z,B)
-                if follows_from(x,tmp):
-                    T.discard(fd)
-                    T.add(x)
+    for x in tmp:
+        for y in tmp:
+            if x.right() <= y.right() and len(x.left()) > len(y.left()) and y.left() < x.left():
+                T.discard(x)
+    
+    #tmp = T.copy()
+    #for fd in tmp:
+    #    Y = fd.left()
+    #    B = fd.right()
+    #    l = len(Y)
+    #    if l >= 2:
+    #        for Z in one_less_subsets(Y):
+    #            x = FD(Z,B)
+    #            if follows_from(x,tmp):
+    #                T.discard(fd)
+    #                T.add(x)
 
 
-    tmp = T.copy()
+    #tmp = T.copy()
 
     # Transitivity:
     # A -> C
@@ -46,9 +52,9 @@ def projection(R, R1, S):
     # A -> D
     #
     # Removes A -> D since it's redundant
-    for fd in tmp:
-        if fd.right() <= fd.left() or follows_from(fd, tmp):
-            T.discard(fd)
+    #for fd in tmp:
+    #    if fd.right() <= fd.left() or follows_from(fd, tmp):
+    #        T.discard(fd)
 
     return T
 
