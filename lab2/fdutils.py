@@ -34,7 +34,6 @@ def projection(R, R1, S):
             for Z in one_less_subsets(Y):
                 x = FD(Z,B)
                 if follows_from(x,tmp):
-                    print(fd)
                     T.discard(fd)
                     T.add(x)
 
@@ -61,7 +60,10 @@ def follows_from(fd,fds):
     return False
 
 def BCNF(S):
-    pass
+    R = set()
+    for fd in S:
+        R |= fd.left() | fd.right()
+    return _BCNF(R, S)
 
 def _BCNF(R, S):
     # is R in BCNF?
@@ -75,9 +77,10 @@ def _BCNF(R, S):
     S1 = projection(R, R1, S)
     S2 = projection(R, R2, S)
 
-    print('R1: {}, S1: {}\nR2: {}, S2: {}'.format(R1,S1,R2,S2))
+    #print('R1: {}, S1: {}\nR2: {}, S2: {}'.format(R1,S1,R2,S2))
 
-    return _BCNF(R1, S1) | _BCNF(R2, S2)
+    return R1,S2,R2,S2
+    #return _BCNF(R1, S1) | _BCNF(R2, S2)
 
 def fds_contains_keys(R, S, tmp):
     K = keys(R, S)
