@@ -17,53 +17,30 @@ def closure(attrs, fds):
                 done = False
     return closure
 
-def projection(R, R1, S):
-    T = set()
-    for X in subsets(R1):
-        Xp = closure(X, S)
-        for A in R1:
-            if A in Xp and {A} != X:
-                T.add(FD(X, {A}))
+def projection(Ra, R, S):
+    T  = set()
+    Ss = set()
+    for fd in S:
+        Ss |= fd.split()
     
-    tmp = T.copy()
-    for x in tmp:
-        for y in tmp:
-            if x.right() <= y.right() and len(x.left()) > len(y.left()) and y.left() < x.left():
-                T.discard(x)
+    for X in subsets(R):
+        Xp = closure(X,S)
+        for fd in Ss:
+            if fd.right() <= (Xp - X):
+                T.add(FD(X, fd.right()))
     
-    #tmp = T.copy()
-    #for fd in tmp:
-    #    Y = fd.left()
-    #    B = fd.right()
-    #    l = len(Y)
-    #    if l >= 2:
-    #        for Z in one_less_subsets(Y):
-    #            x = FD(Z,B)
-    #            if follows_from(x,tmp):
-    #                T.discard(fd)
-    #                T.add(x)
-
-
-    #tmp = T.copy()
-
-    # Transitivity:
-    # A -> C
-    # C -> D
-    # A -> D
-    #
-    # Removes A -> D since it's redundant
-    #for fd in tmp:
-    #    if fd.right() <= fd.left() or follows_from(fd, tmp):
-    #        T.discard(fd)
+    other = Ra - R
+    for X in T.copy():
+        for Y in X.left() | X.right():
+            if Y in other:
+                T.discard(X)
+    
+    for X in T.copy():
+        for Y in T.copy():
+            if X != Y and X.right() == Y.right() and X.left() < Y.left():
+                T.discard(Y)
 
     return T
-
-def follows_from(fd,fds):
-    for x in fds:
-        for y in fds:
-            if fd.left() == x.left() and fd.right() == y.right() and x.right() == y.left():
-                return True
-    return False
 
 def BCNF(S):
     R = set()
@@ -72,39 +49,25 @@ def BCNF(S):
     return _BCNF(R, S)
 
 def _BCNF(R, S):
-    # is R in BCNF?
-    tmp = []
-    if all( fds_contains_keys(R, S, tmp) ):
-        return R
-
-    tmp = tmp[0]
-    R1 = closure(tmp.left(), S)
-    R2 = tmp.left() | (R - R1)
+    fd = None
+    
+    for i in S:
+        X  = i.left()
+        Xp = closure(X, S)
+        if Xp != R:
+            fd =  i
+            break
+    
+    if fd == None:
+        return (set(R),)
+    
+    R1 = closure(fd.left(), S)
+    R2 = fd.left() | (R - R1)
     S1 = projection(R, R1, S)
     S2 = projection(R, R2, S)
-
-    #print('R1: {}, S1: {}\nR2: {}, S2: {}'.format(R1,S1,R2,S2))
-
-    return R1,S2,R2,S2
-    #return _BCNF(R1, S1) | _BCNF(R2, S2)
-
-def fds_contains_keys(R, S, tmp):
-    K = keys(R, S)
-    for fd in S:
-        if any( [k in fd.left() for k in K] ):
-            yield True
-        else:
-            tmp.append(fd)
-            yield False
-
-def keys(R, S):
-    keys = set()
-
-    for A in subsets(R):
-        if closure(A, S) == R:
-            if all( [closure(X, S) == R for X in one_less_subsets(A)] ):
-                keys |= A
-    return keys
+    
+    return _BCNF(R1, S1) + _BCNF(R2, S2)
+        
 
 def subsets(rel):
     for i in range(1, len(rel)):

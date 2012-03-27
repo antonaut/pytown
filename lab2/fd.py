@@ -2,19 +2,16 @@
 
 class Functional_Dependencies:
     # This class has to be immutable to work with sets
-    def __init__(self, left = set(), right = set()):
-        self._left = left
-        self._right = right
+    def __init__(self, left = frozenset(), right = frozenset()):
+        self._left = frozenset(left)
+        self._right = frozenset(right)
         self._str = None
         self._hash = None
     
     def __hash__(self):
         # Lazy evaluation of hash with cache
         if self._hash == None:
-            self._hash = 0
-            for x in self._left | self._right:
-                # Just xor the lefts and rights hashes together
-                self._hash ^= hash(x)
+            self._hash = hash(self._left) ^ hash(self._right)
         return self._hash
     
     def __eq__(self, other):

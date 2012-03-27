@@ -20,14 +20,18 @@ S  = {FD({'A'},{'B'}),FD({'B'},{'C'}),FD({'C'},{'D'})}
 c  = closure({'A'},S)
 p1 = projection(R, R1, S)
 
-k1 = keys(R, S)
 R2 = {'title','year','studioName','president','presAddr'}
 S2 = {FD({'title','year'},{'studioName'}),FD({'studioName'},{'president'}),FD({'president'},{'presAddr'})}
-k2 = keys(R2, S2)
-#b2 = BCNF(R2, S2)
+b2 = BCNF(S2)
 
 bi1 = BCNF(fd1)
 bi2 = BCNF(fd2)
 bi3 = BCNF(fd3)
-bia = BCNF(fda)
 big = BCNF(fdg)
+bia = BCNF(fda)
+
+print(bi1)
+print(bi2)
+print(bi3)
+print(bia)
+print(big)
