@@ -30,8 +30,7 @@ bi3 = BCNF(fd3)
 big = BCNF(fdg)
 bia = BCNF(fda)
 
-print(bi1)
-print(bi2)
-print(bi3)
-print(bia)
-print(big)
+for s in [bi1, bi2, bi3, big, bia]:
+    for t in s:
+        print(t)
+    print()

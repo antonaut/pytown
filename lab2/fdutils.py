@@ -59,14 +59,14 @@ def _BCNF(R, S):
             break
     
     if fd == None:
-        return (set(R),)
+        return {tuple(R)}
     
     R1 = closure(fd.left(), S)
     R2 = fd.left() | (R - R1)
     S1 = projection(R, R1, S)
     S2 = projection(R, R2, S)
     
-    return _BCNF(R1, S1) + _BCNF(R2, S2)
+    return _BCNF(R1, S1) | _BCNF(R2, S2)
         
 
 def subsets(rel):

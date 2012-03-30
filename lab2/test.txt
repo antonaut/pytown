@@ -1,0 +1,20 @@
+('A', 'B')
+('A', 'D')
+('C', 'D')
+
+('C', 'B')
+('A', 'E', 'D')
+('C', 'E')
+
+('A', 'C', 'B')
+('A', 'B', 'D')
+('B', 'E')
+
+('C', 'D')
+('C', 'B')
+('A', 'B', 'F')
+
+('Herp', 'Explosive elephant', 'Derp')
+('Herp', 'Flamingo', 'Derp')
+('Dingoes', 'Derp')
+
