@@ -12,6 +12,8 @@ fd3 = parse("input/input3.dep")
 fdg = parse("input/generics.dep")
 fda = parse("input/advancedAttributes.dep")
 
+fdl = parse("lab.dep")
+
 c1 = closure({'A','C'}, fd1)
 
 R  = {'A','B','C','D'}
@@ -30,7 +32,9 @@ bi3 = BCNF(fd3)
 big = BCNF(fdg)
 bia = BCNF(fda)
 
-for s in [bi1, bi2, bi3, big, bia]:
+bil = BCNF(fdl)
+
+for s in [bi1, bi2, bi3, big, bia, bil]:
     for t in s:
         print(t)
     print()
