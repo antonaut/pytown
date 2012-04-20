@@ -1,0 +1,31 @@
+/* Main style */
+
+/*
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="style.css"?>
+<xhtml:script xmlns:xhtml="http://www.w3.org/1999/xhtml" src="jquery.js" type="application/javascript"/>
+<xhtml:script xmlns:xhtml="http://www.w3.org/1999/xhtml" src="main.js" type="application/javascript"/>
+*/
+
+title, director, actor {
+	display: block;
+}
+
+answer {
+	display: list-item;
+	width: 20em;
+	border: 1px solid black;
+	border-radius: 5px;
+	margin: 3px auto;
+	padding-left: 3px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+result {
+	list-style-type: decimal;
+  	height: 100%;
+  	width: 100%;
+  	background-size: 100%;
+	background: #000000 url('http://bbs.itjjj.com/data/attachment/forum/201111/20/213955gohbtigo0cbgxlfo.jpg') no-repeat left top;
+  	color: white;
+}
